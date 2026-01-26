@@ -6,3 +6,4 @@ sentence-transformers
 elasticsearch==8.15.0 
 elasticsearch-dsl==8.15.0
 faiss-cpu
+pyyaml
