@@ -5,6 +5,7 @@ embedding_model:
 preprocessor:
   min_description_quantile: 0.05
   similarity_threshold: 0.95
+  deduplicate_embedding_model: 'sentence-transformers/all-MiniLM-L6-v2'
 
 clustering:
   n_clusters: 20

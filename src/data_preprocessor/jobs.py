@@ -9,6 +9,7 @@ from typing import Optional, List
 from sentence_transformers import util
 from src.utils.config_loader import ConfigLoader
 from src.utils.logger import get_logger
+from sentence_transformers import SentenceTransformer
 
 
 logger = get_logger(__name__)
@@ -26,7 +27,9 @@ class JobsPreprocessor:
         """
         self.config = config_loader
         self.preprocessor_config = self.config.get('preprocessor', {})
-        self.model = self.config.load_sentence_transformer()
+        model_name = self.preprocessor_config.get('deduplicate_embedding_model')
+        self.model = SentenceTransformer(model_name)
+        logger.info(f"Using model: {model_name}")
 
     def process(self, df: pd.DataFrame) -> pd.DataFrame:
         """
