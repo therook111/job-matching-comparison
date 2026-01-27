@@ -20,7 +20,7 @@ class ConfigLoader:
         """
         if config_path is None:
             # Default to the config.yaml in the resources directory
-            self.config_path = Path(__file__).parent.parent / "resources" / "config.yaml"
+            self.config_path = Path(__file__).parent.parent.parent / "resources" / "config.yaml"
         else:
             self.config_path = Path(config_path)
         

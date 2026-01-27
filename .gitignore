@@ -3,3 +3,5 @@
 thesis resource/**
 
 **.ipynb
+**.csv
+**/__pycache__/**
