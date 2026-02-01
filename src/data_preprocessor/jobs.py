@@ -5,7 +5,6 @@ Data preprocessor for job descriptions.
 import pandas as pd
 import numpy as np
 import torch
-from typing import Optional, List
 from sentence_transformers import util
 from src.utils.config_loader import ConfigLoader
 from src.utils.logger import get_logger

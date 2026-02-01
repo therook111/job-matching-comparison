@@ -12,3 +12,13 @@ clustering:
   random_state: 42
   batch_size: 1024
   max_features: 2000
+
+generation_model:
+  model_name: "gemini-3-flash-preview"
+
+dataset_generation:
+  positive_output_path: "scripts_output/generated/positive.jsonl"
+  negative_output_path: "scripts_output/generated/hard_negative.jsonl"
+
+data_split:
+  train_ratio: 0.9
