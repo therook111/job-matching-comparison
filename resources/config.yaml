@@ -17,8 +17,24 @@ generation_model:
   model_name: "gemini-3-flash-preview"
 
 dataset_generation:
-  positive_output_path: "scripts_output/generated/positive.jsonl"
-  negative_output_path: "scripts_output/generated/hard_negative.jsonl"
+  positive_output_path: "scripts_output/generated/positive_train.jsonl"
+  negative_output_path: "scripts_output/generated/hard_negative_train.jsonl"
+  k_easy_negs: 3
+  final_training_dataset_path: "scripts_output/training_dataset.csv"
 
 data_split:
   train_ratio: 0.9
+
+implementation_methods:
+  baseline:
+    extraction_model: "gemini-2.0-flash"
+    retrieval_k: 20
+
+  confit:
+    pass: 1
+
+  kaerr:
+    pass: 1
+
+  gnn:
+    pass: 1
