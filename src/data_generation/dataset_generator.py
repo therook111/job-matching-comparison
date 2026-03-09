@@ -1,10 +1,12 @@
 import json
 import os
 import threading
+import random
 from typing import Optional, Dict, Any
 from .cv_generator import CVGenerator
 from ..utils.config_loader import ConfigLoader
 from ..utils.logger import get_logger
+from ..utils.constants import POISON_STRATEGIES
 
 logger = get_logger(__name__)
 
@@ -15,13 +17,20 @@ class DatasetGenerator:
     and saving them to JSONL files.
     """
     
-    def __init__(self, config_loader: Optional[ConfigLoader] = None, api_key: Optional[str] = None):
+    def __init__(
+        self, 
+        config_loader: Optional[ConfigLoader] = None, 
+        api_key: Optional[str] = None, 
+        split: str = "train"
+    ):
         """
         Initialize the DatasetGenerator.
         
         Args:
             config_loader: Optional ConfigLoader instance. If None, creates a new one.
             api_key: Optional API key for the generator.
+            split: Which data split to use ('train' or 'test'). 
+                   Determines output paths from config.
         """
         if config_loader is None:
             self.config_loader = ConfigLoader()
@@ -30,14 +39,20 @@ class DatasetGenerator:
             
         self.cv_generator = CVGenerator(config_loader=self.config_loader, api_key=api_key)
         
-        # Get output paths from config
+        # Get output paths from config based on split
         dataset_config = self.config_loader.get('dataset_generation', {})
-        self.positive_output_path = dataset_config.get(
-            'positive_output_path'
-        )
-        self.negative_output_path = dataset_config.get(
-            'negative_output_path'
-        )
+        split_config = dataset_config.get(split, {})
+        
+        self.positive_output_path = split_config.get('positive_output_path')
+        self.negative_output_path = split_config.get('negative_output_path')
+        self.k_hard_negs = split_config.get('k_hard_negs', 1)
+        
+        if not self.positive_output_path or not self.negative_output_path:
+            raise ValueError(
+                f"Missing output paths for split '{split}' in dataset_generation config. "
+                f"Expected 'dataset_generation.{split}.positive_output_path' and "
+                f"'dataset_generation.{split}.negative_output_path'."
+            )
         
         # Ensure directories exist
         os.makedirs(os.path.dirname(self.positive_output_path), exist_ok=True)
@@ -60,14 +75,13 @@ class DatasetGenerator:
 
     def generate_dataset_entry(self, jd_text: str, language: str = "English"):
         """
-        Generate a positive and a hard negative CV for the given JD,
+        Generate a positive CV and k hard negative CVs for the given JD,
         and save them to the configured output files.
         
         Args:
             jd_text: The Job Description text.
             language: The language for the generated CV.
         """
-        # 1. Generate Positive CV
         try:
             positive_cv = self.cv_generator.generate_positive_cv(jd_text, language)
             
@@ -76,23 +90,30 @@ class DatasetGenerator:
                 "positive": positive_cv.cv_text,
                 "match": 1
             }
-            # 2. Generate Hard Negative CV
-            hard_negative_cv = self.cv_generator.generate_hard_negative_cv(
-                jd_text, 
-                positive_cv, 
-                language
-            )
             
-            negative_entry = {
-                "original_jd": jd_text,
-                "hard_negative": hard_negative_cv.cv_text,
-                "modification_type": hard_negative_cv.modification_type,
-                "match": 0
-            }
+            negative_entries = []
+            for i in range(self.k_hard_negs):
+                poison_strategy = random.choice(POISON_STRATEGIES)
+                
+                hard_negative_cv = self.cv_generator.generate_hard_negative_cv(
+                    jd_text, 
+                    positive_cv, 
+                    language,
+                    poison_strategy
+                )
+                
+                negative_entries.append({
+                    "original_jd": jd_text,
+                    "hard_negative_index": i,
+                    "hard_negative": hard_negative_cv.cv_text,
+                    "modification_type": hard_negative_cv.modification_type,
+                    "match": 0
+                })
             
-            # Write both entries only after successful generation of both
+            # Write all entries only after successful generation
             self._append_to_jsonl(self.positive_output_path, positive_entry)
-            self._append_to_jsonl(self.negative_output_path, negative_entry)
+            for neg_entry in negative_entries:
+                self._append_to_jsonl(self.negative_output_path, neg_entry)
             
         except Exception as e:
             logger.error(f"Error generating dataset entry for JD: {jd_text[:50]}... Error: {e}")

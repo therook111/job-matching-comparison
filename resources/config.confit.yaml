@@ -1,0 +1,32 @@
+rum:
+  percentile_lower: 0.03
+  percentile_upper: 0.04 # Top 3-4% similarity, respecting the original paper's intent.
+  batch_size: 16
+  seed: 42
+  temperature: 0.05 # temperature for logits
+  train_data_dir: "scripts_output/training_dataset.csv"
+  output_path: "scripts_output/confit_dataset.csv"
+  k_mined_negs: 2
+
+summary_generation:
+  model_name: "gemini-2.0-flash"
+  output_dir: "scripts_output/confit_summary.jsonl"
+  failed_jds_dir: "scripts_output/confit_failed_jds.jsonl"
+
+confit:
+  base_encoder: "BAAI/bge-m3"
+  split_ratio: 0.8
+  max_seq_length: 1024
+  seed: 42
+  training:
+    per_device_train_batch_size: 4
+    per_device_eval_batch_size: 4
+    epochs: 5
+    learning_rate: 2e-5
+    warmup_ratio: 0.1
+    gradient_accumulation_steps: 4
+    fp16: true # saves resources
+    output_dir: "scripts_output/confit_model"
+    
+    
+    

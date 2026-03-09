@@ -10,3 +10,6 @@ pyyaml
 scikit-learn
 json_repair
 python-dotenv
+pytorch-lightning
+datasets==4.6.1
+optuna

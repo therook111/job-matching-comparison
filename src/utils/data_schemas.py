@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Literal
+from typing import Literal, List
 
 class GeneratedCV(BaseModel):
     cv_text: str 
@@ -11,3 +11,6 @@ class PoisonedCV(BaseModel):
         "Role Mismatch",
     ]
     cv_text: str
+
+class GeneratedSummary(BaseModel):
+    summary: str

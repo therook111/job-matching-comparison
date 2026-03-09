@@ -1,0 +1,10 @@
+{
+    "ndcg@5": 0.9132,
+    "mrr@5": 0.8870,
+    "recall@5": 0.9876,
+    "hard_neg_failure_rate": 0.1609,
+    "avg_hard_negs_winning": 0.16,
+    "easy_neg_failure_rate": 0.0644,
+    "avg_easy_negs_winning": 0.14,
+    "positive_rank": 1.3
+}

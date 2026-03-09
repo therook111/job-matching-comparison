@@ -9,3 +9,9 @@ JD_STOP_WORDS = list(vectorizer.get_stop_words()) + [
     'software', 'opportunity', 'years', 'plus', 'business', 'strong', 
     'good', 'understanding', 'proficiency', 'based', 'using', 'english'
 ]
+
+POISON_STRATEGIES = [
+    "Strategy A (Seniority Mismatch)",
+    "Strategy B (Stack Mismatch)",
+    "Strategy C (Role Mismatch)",
+]

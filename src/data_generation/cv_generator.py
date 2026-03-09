@@ -4,8 +4,12 @@ import os
 from dotenv import load_dotenv
 from typing import Optional, Dict, Any, Type
 from ..utils.config_loader import ConfigLoader
-from ..utils.data_schemas import GeneratedCV, PoisonedCV
-from ..utils.prompts import GENERATE_POSITIVE_PROMPT, GENERATE_HARD_NEGATIVE_PROMPT
+from ..utils.data_schemas import GeneratedCV, PoisonedCV, GeneratedSummary
+from ..utils.prompts import (
+    GENERATE_POSITIVE_PROMPT, 
+    GENERATE_HARD_NEGATIVE_PROMPT,
+    GENERATE_PROFILE_PROMPT
+)
 
 # Load environment variables
 load_dotenv()
@@ -72,7 +76,11 @@ class CVGenerator:
 
         return response.parsed
 
-    def generate_hard_negative_cv(self, jd_text: str, positive_cv: GeneratedCV, language: str = "English") -> PoisonedCV:
+    def generate_hard_negative_cv(self, 
+                                 jd_text: str, 
+                                 positive_cv: GeneratedCV, 
+                                 language: str = "English",
+                                 poison_strategy: str = "Strategy A") -> PoisonedCV:
         """
         Generate a hard negative (poisoned) CV based on a matching CV and JD.
         
@@ -87,7 +95,8 @@ class CVGenerator:
         prompt = GENERATE_HARD_NEGATIVE_PROMPT.format(
             jd=jd_text,
             positive_cv_text=positive_cv.cv_text,
-            output_language=language
+            output_language=language,
+            poison_strategy=poison_strategy
         )
         
         response = self.client.models.generate_content(
@@ -102,4 +111,31 @@ class CVGenerator:
         if not response.parsed:
             raise ValueError("Failed to parse response from Gemini API")
             
+        return response.parsed
+
+    def generate_profile(self, jd_text: str, language: str = "English") -> GeneratedCV:
+        """
+        Generate a profile summary for a given Job Description.
+        
+        Args:
+            jd_text: The Job Description text.
+            language: The language for the generated profile.
+            
+        Returns:
+            GeneratedSummary object containing the summarized text.
+        """
+        prompt = GENERATE_PROFILE_PROMPT.format(jd=jd_text, output_language=language)
+        
+        response = self.client.models.generate_content(
+            model=self.model_name,
+            contents=[prompt],
+            config=types.GenerateContentConfig(
+                response_mime_type='application/json',
+                response_schema=GeneratedSummary
+            )
+        )
+        
+        if not response.parsed:
+             raise ValueError("Failed to parse response from Gemini API")
+
         return response.parsed

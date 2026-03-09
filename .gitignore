@@ -5,3 +5,4 @@
 **.csv
 **/__pycache__/**
 scripts_output/generated/**
+scripts_output/confit_summary.jsonl

@@ -1,0 +1,33 @@
+embedding_model:
+  name: "BAAI/bge-m3"
+  device: "cuda"
+
+common_neighbors_similarity:
+  k: 10
+  sharpening_factor: 4.0
+
+inter_entity_threshold:
+  term_similarity: 0.5
+  l2_dist: 0.5
+  common_neighbors_similarity: 0.5
+
+data:
+  train_dataset_path: "scripts_output/training_dataset.csv"
+  test_dataset_path: "scripts_output/testing_dataset.csv"
+  extracted_jd_path: "scripts_output/generated/gnn_jd.jsonl"
+  extracted_cv_path: "scripts_output/generated/gnn_cv.jsonl"
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+
+training:
+  trials_per_config: 100
+  max_epochs: 300
+
+  # early stopping patience
+  patience: 50
+  
+  weight_decay: 1e-5
+  # other parameters are tuned using Optuna
+
+
