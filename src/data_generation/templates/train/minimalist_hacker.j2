@@ -1,0 +1,35 @@
+{{ headline_title | upper }} // {{ seniority_level }} // {{ total_yoe }}y exp
+{{ "=" * 72 }}
+
+## STACK
+lang    :: {{ core_tech_stack | join(" | ") }}
+tools   :: {{ tools_and_frameworks | join(" | ") }}
+extra   :: {{ scripting_and_secondary | join(" | ") }}
+methods :: {{ methodologies | join(" | ") }}
+domain  :: {{ domain_expertise }}
+
+## XP
+{% for job in work_history %}
+[{{ loop.index }}] {{ job.role_title }} — {{ job.years_in_role }}yr
+{% if job.bullet_points %}
+{% for point in job.bullet_points %}
+    > {{ point }}
+{% endfor %}
+{% else %}
+    {{ job.paragraph_description }}
+{% endif %}
+{% endfor %}
+{% if irrelevant_past_job or unrelated_certifications or personal_interests %}
+
+## MISC
+{% if irrelevant_past_job %}
+prev    :: {{ irrelevant_past_job }}
+{% endif %}
+{% if unrelated_certifications %}
+certs   :: {{ unrelated_certifications | join(", ") }}
+{% endif %}
+{% if personal_interests %}
+other   :: {{ personal_interests | join(", ") }}
+{% endif %}
+{% endif %}
+{{ "=" * 72 }}

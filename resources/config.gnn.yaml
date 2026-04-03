@@ -19,6 +19,7 @@ data:
   train_ratio: 0.8
   val_ratio: 0.1
   test_ratio: 0.1
+  faiss_index_path: "scripts_output/faiss_index"
 
 training:
   trials_per_config: 100

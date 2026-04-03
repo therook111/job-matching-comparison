@@ -1,0 +1,52 @@
+{# ============================================================= #}
+{# TEMPLATE: The Startup Hustler                                  #}
+{# Highly informal · First-person casual · Emoji-heavy            #}
+{# Expects direct access to CandidateProfile variables            #}
+{# ============================================================= #}
+
+Hey there! 👋
+
+I'm a {{ seniority_level }} {{ headline_title }} with {{ total_yoe }} years of experience under my belt. Right now, my absolute favorite space to build in is {{ domain_expertise }}.
+
+=== Tech I Love & Live By ===
+💻 Core Stack: {{ core_tech_stack | join(', ') }}
+🛠️ My Toolkit: {{ tools_and_frameworks | join(', ') }}
+🌙 Late-Night Scripting: {{ scripting_and_secondary | join(', ') }}
+🚀 How I Build: {{ methodologies | join(', ') }}
+
+=== My Journey ===
+{% for job in work_history %}
+>> {{ job.role_title }} ({{ job.years_in_role }} years)
+{% if job.bullet_points and job.bullet_points|length > 0 %}
+{% for point in job.bullet_points %}
+  ⚡ {{ point }}
+{% endfor %}
+{% else %}
+  {{ job.paragraph_description }}
+{% endif %}
+
+{% endfor %}
+
+{% if irrelevant_past_job %}
+=== Way Back When ===
+Believe it or not, before I was deep in the tech trenches, my grind started as a {{ irrelevant_past_job }}. It taught me more about real-world problem-solving and hustle than any textbook ever could!
+
+{% endif %}
+=== Off the Clock ===
+When I'm not compiling code, reviewing PRs, or debugging production, I am completely unplugged and exploring my passions. 
+{% if personal_interests %}
+
+I spend most of my free time focused on:
+{% for interest in personal_interests %}
+* {{ interest }}
+{% endfor %}
+{% endif %}
+{% if unrelated_certifications %}
+
+Fun fact! I'm always learning, even if it has absolutely nothing to do with software. I'm proud to hold the following certifications:
+{% for cert in unrelated_certifications %}
+* {{ cert }}
+{% endfor %}
+{% endif %}
+
+Always looking for the next big challenge to ship incredible products using {{ core_tech_stack[0] }}!

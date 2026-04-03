@@ -23,6 +23,7 @@ from src.utils.config_loader import ConfigLoader
 from src.utils.logger import get_logger
 from src.utils.async_batch_processor import AsyncBatchProcessor
 from src.data_generation.cv_generator import CVGenerator
+from src.methods.confit.utils import get_mapping_status
 
 logger = get_logger(__name__)
 
@@ -254,11 +255,9 @@ def main():
             f"Skipping JD mapping — fix failures in {failed_jds_path} and re-run."
         )
 
+    # 8. Mapping clusters. Workaround because my goober ass forgot to add cluster mapping in the dataset.
 
-
-
-
-    # 8. Save
+    # 9. Save
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     df_augmented.to_csv(output_path, index=False)
 

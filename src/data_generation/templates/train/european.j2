@@ -1,0 +1,72 @@
+{# =========================
+   THE EUROPASS MATRIX
+   Rigid plain-text CV layout
+   ========================= #}
+
+CANDIDATE MATRIX DOSSIER
+============================================================
+Headline Title       : {{ headline_title }}
+Seniority Level      : {{ seniority_level }}
+Total Years of Exp.  : {{ total_yoe }}
+Domain Expertise     : {{ domain_expertise }}
+
+PRIMARY COMPETENCIES
+------------------------------------------------------------
+{% for skill in core_tech_stack %}
+- {{ skill }}
+{% endfor %}
+{% for tool in tools_and_frameworks %}
+- {{ tool }}
+{% endfor %}
+
+SECONDARY COMPETENCIES
+------------------------------------------------------------
+{% for skill in scripting_and_secondary %}
+- {{ skill }}
+{% endfor %}
+{% for method in methodologies %}
+- {{ method }}
+{% endfor %}
+
+WORK HISTORY MATRIX
+============================================================
+{% for job in work_history %}
+ROLE {{ loop.index }}: {{ job.role_title }}
+Years in Role: {{ job.years_in_role }}
+
+{% if job.bullet_points and job.bullet_points|length > 0 %}
+Achievement Set:
+{% for point in job.bullet_points %}
+  • {{ point }}
+{% endfor %}
+{% else %}
+Role Narrative:
+{{ job.paragraph_description }}
+{% endif %}
+
+------------------------------------------------------------
+{% endfor %}
+
+ADDITIONAL PROFILE ELEMENTS
+============================================================
+{% if personal_interests %}
+Interests & Hobbies:
+{% for interest in personal_interests %}
+- {{ interest }}
+{% endfor %}
+{% endif %}
+
+{% if irrelevant_past_job %}
+Prior Employment History:
+- {{ irrelevant_past_job }}
+{% endif %}
+
+{% if unrelated_certifications %}
+Other Certifications:
+{% for cert in unrelated_certifications %}
+- {{ cert }}
+{% endfor %}
+{% endif %}
+
+END OF MATRIX
+============================================================

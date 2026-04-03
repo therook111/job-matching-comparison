@@ -1,0 +1,64 @@
+{# ============================================================= #}
+{# TEMPLATE: The Functional / Skill-Based                         #}
+{# Aggregated achievements · Timelines decoupled at the bottom    #}
+{# ============================================================= #}
+
+================================================================================
+{{ seniority_level | upper }} {{ headline_title | upper }}
+{{ total_yoe }} Years of Experience | Domain Expertise: {{ domain_expertise }}
+================================================================================
+
+EXECUTIVE SUMMARY
+--------------------------------------------------------------------------------
+{%- set has_paragraphs = false %}
+{%- for role in work_history %}
+{%- if role.paragraph_description %}
+{{ role.paragraph_description }}
+{%- set has_paragraphs = true %}
+{%- endif %}
+{%- endfor %}
+{%- if not has_paragraphs %}
+A results-driven {{ headline_title }} with a proven track record of engineering excellence in {{ domain_expertise }}. Deeply experienced in driving technical initiatives from architecture to production.
+{%- endif %}
+
+TECHNICAL SKILLS & METHODOLOGIES
+--------------------------------------------------------------------------------
+>> Core Tech Stack:      {{ core_tech_stack | join(', ') }}
+>> Tools & Frameworks:   {{ tools_and_frameworks | join(', ') }}
+>> Scripting/Secondary:  {{ scripting_and_secondary | join(', ') }}
+>> Methodologies:        {{ methodologies | join(', ') }}
+
+CORE COMPETENCIES & KEY ACHIEVEMENTS
+--------------------------------------------------------------------------------
+{%- set all_bullets = [] %}
+{%- for role in work_history %}
+{%- if role.bullet_points %}
+{%- for bullet in role.bullet_points %}
+{%- set _ = all_bullets.append(bullet) %}
+{%- endfor %}
+{%- endif %}
+{%- endfor %}
+{%- for bullet in all_bullets | shuffle %}
+* {{ bullet }}
+{%- endfor %}
+
+EMPLOYMENT HISTORY
+--------------------------------------------------------------------------------
+{%- for role in work_history %}
+- {{ role.role_title }} ({{ role.years_in_role }} year{% if role.years_in_role != 1 %}s{% endif %})
+{%- endfor %}
+{%- if irrelevant_past_job %}
+- {{ irrelevant_past_job }} (Early Career)
+{%- endif %}
+
+{%- if unrelated_certifications or personal_interests %}
+
+ADDITIONAL PROFILE DETAILS
+--------------------------------------------------------------------------------
+{%- if unrelated_certifications %}
+Certifications: {{ unrelated_certifications | join(', ') }}
+{%- endif %}
+{%- if personal_interests %}
+Interests: {{ personal_interests | join(', ') }}
+{%- endif %}
+{%- endif %}

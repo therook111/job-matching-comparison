@@ -28,5 +28,9 @@ confit:
     fp16: true # saves resources
     output_dir: "scripts_output/confit_model"
     
-    
-    
+
+test_enrichment:
+  test_data_dir: "scripts_output/test_dataset.csv"
+  output_path: "scripts_output/test_dataset_enriched.csv"
+  summary_output_dir: "scripts_output/test_confit_summary.jsonl"
+  failed_jds_dir: "scripts_output/test_confit_failed_jds.jsonl"

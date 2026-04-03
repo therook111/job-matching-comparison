@@ -1,0 +1,52 @@
+================================================================================
+{{ headline_title | upper }}
+Seniority: {{ seniority_level }} | Total Experience: {{ total_yoe }} Years
+Domain Expertise: {{ domain_expertise }}
+================================================================================
+
+PROFESSIONAL SUMMARY
+--------------------------------------------------------------------------------
+{% set summary_variants = [
+  "Highly structured and results-oriented " ~ headline_title ~ " with " ~ total_yoe ~ " years of professional experience operating within the " ~ domain_expertise ~ " sector. Proven capability in navigating complex requirements and leveraging industry-standard methodologies to deliver robust, scalable solutions.",
+  
+  "Dynamic " ~ headline_title ~ " bringing " ~ total_yoe ~ "+ years of hands-on expertise in the " ~ domain_expertise ~ " industry. Track record of designing and deploying high-efficiency solutions, demonstrating deep proficiency across modern technical stacks and agile environments.",
+  
+  "Accomplished " ~ headline_title ~ " specializing in " ~ domain_expertise ~ " with over " ~ total_yoe ~ " years of progressive experience. Adept at bridging technical and business requirements to drive critical projects from conception to successful deployment."
+] %}
+{{ summary_variants | random }}
+
+TECHNICAL SKILLS & COMPETENCIES
+--------------------------------------------------------------------------------
+* Core Technologies      : {{ core_tech_stack | join(', ') }}
+* Tools & Frameworks     : {{ tools_and_frameworks | join(', ') }}
+* Scripting & Secondary  : {{ scripting_and_secondary | join(', ') }}
+* Methodologies          : {{ methodologies | join(', ') }}
+
+PROFESSIONAL EXPERIENCE
+--------------------------------------------------------------------------------
+{% for job in work_history %}
+ROLE   : {{ job.role_title | upper }}
+TENURE : {{ job.years_in_role }} Years
+
+{{ job.paragraph_description }}
+
+Key Responsibilities & Achievements:
+{% for bullet in job.bullet_points %}
+  - {{ bullet }}
+{% endfor %}
+
+{% endfor %}
+{% if irrelevant_past_job or unrelated_certifications or personal_interests %}
+ADDITIONAL PROFILE INFORMATION
+--------------------------------------------------------------------------------
+{% if irrelevant_past_job %}
+* Previous Experience : {{ irrelevant_past_job }}
+{% endif %}
+{% if unrelated_certifications %}
+* Certifications      : {{ unrelated_certifications | join(', ') }}
+{% endif %}
+{% if personal_interests %}
+* Personal Interests  : {{ personal_interests | join(', ') }}
+{% endif %}
+{% endif %}
+================================================================================

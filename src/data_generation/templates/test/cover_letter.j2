@@ -1,0 +1,25 @@
+
+Dear Hiring Team,
+
+I am writing to express my strong interest in the {{ headline_title }} position. With {{ total_yoe }} years of experience as a {{ seniority_level | lower }} professional, I have built a solid foundation in the technologies and practices that align closely with your team's needs, specifically within the {{ domain_expertise }} space.
+
+My technical toolkit centers on {{ core_tech_stack | join(', ') }}{% if tools_and_frameworks %} and I am equally comfortable operating delivery pipelines with {{ tools_and_frameworks | join(', ') }}{% endif %}. I thrive in environments that value {{ methodologies | join(', ') }}, and I regularly leverage {% if scripting_and_secondary %}{{ scripting_and_secondary | join(' and ') }} to automate workflows and extend my impact{% else %}custom scripting to streamline operations{% endif %}.
+
+Throughout my career, I have focused on delivering measurable results. To give you an idea of my background:
+
+{% for exp in work_history %}
+During my {{ exp.years_in_role }}-year tenure as a {{ exp.role_title }}, {% if exp.bullet_points and exp.bullet_points|length > 0 %}{{ exp.bullet_points | join(' ') }}{% else %}{{ exp.paragraph_description }}{% endif %}
+{% if not loop.last %}
+
+Prior to that, {% endif %}
+{% endfor %}
+
+{% if irrelevant_past_job or unrelated_certifications or personal_interests %}
+On a more personal note, {% if irrelevant_past_job %}my journey into technology actually began as a {{ irrelevant_past_job }}, a role that taught me incredible resilience and the value of clear communication under pressure. {% endif %}{% if unrelated_certifications %}I also hold active certifications in {{ unrelated_certifications | join(', ') }}, reflecting my belief in continuous, lifelong learning. {% endif %}{% if personal_interests %}Outside of work, my time is spent exploring {{ personal_interests | join(', ') }}—activities that keep me curious and balanced.{% endif %}
+{% endif %}
+
+I would welcome the opportunity to discuss how my background—particularly my depth in {{ core_tech_stack[0] }}—can directly contribute to your team's upcoming objectives. Thank you for your time and consideration.
+
+Best regards,
+
+An Enthusiastic Applicant

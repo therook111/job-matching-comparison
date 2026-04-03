@@ -1,0 +1,73 @@
+{# ============================================================= #}
+{# TEMPLATE: The Narrative / LinkedIn Style                       #}
+{# Paragraph-heavy · First-person prose · Inline skill joins      #}
+{# ============================================================= #}
+
+{{ headline_title | upper }}
+{{ seniority_level }} Professional  ·  {{ total_yoe }} Years of Experience
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ABOUT ME
+────────────────────────────────────────────────────────────
+I am a {{ seniority_level }} {{ headline_title }} with {{ total_yoe }} years
+of hands-on experience specialising in {{ domain_expertise }}.
+My core stack centres on {{ core_tech_stack | join(', ') }}, and I
+complement that depth with working proficiency in
+{{ scripting_and_secondary | join(', ') }}. Throughout my
+career I have consistently delivered within
+{{ methodologies | join(', ') }} environments, collaborating
+closely with cross-functional teams to ship reliable,
+production-grade software.
+
+SKILLS & TOOLING
+────────────────────────────────────────────────────────────
+My day-to-day toolkit spans {{ tools_and_frameworks | join(', ') }}.
+{% if scripting_and_secondary %}
+I also reach for {{ scripting_and_secondary | join(' and ') }}
+whenever the problem calls for lighter scripting or automation.
+{% endif %}
+Working within {{ methodologies | join(', ') }} frameworks has
+sharpened my instinct for iterative delivery and clear
+stakeholder communication.
+
+PROFESSIONAL EXPERIENCE
+────────────────────────────────────────────────────────────
+{% for job in work_history %}
+{{ job.role_title | upper }}  ({{ job.years_in_role }} {{ 'year' if job.years_in_role == 1 else 'years' }})
+{% if loop.index is odd %}{# Odd roles → paragraph prose  #}
+{{ job.paragraph_description }}
+{% else %}{# Even roles → bullet achievements  #}
+{% for point in job.bullet_points %}
+  • {{ point }}
+{% endfor %}
+{% endif %}
+{% if not loop.last %}
+  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·
+{% endif %}
+{% endfor %}
+
+{# ── Optional / Fluff sections ─────────────────────────────── #}
+{% if irrelevant_past_job %}
+EARLIER CAREER
+────────────────────────────────────────────────────────────
+Before moving into tech I worked as a {{ irrelevant_past_job }},
+which gave me a strong foundation in communication,
+accountability, and working under pressure — qualities I
+carry into every engineering role today.
+
+{% endif %}
+{% if unrelated_certifications %}
+CERTIFICATIONS
+────────────────────────────────────────────────────────────
+Outside of my core technical credentials I hold the following:
+{{ unrelated_certifications | join(' · ') }}.
+
+{% endif %}
+{% if personal_interests %}
+PERSONAL INTERESTS
+────────────────────────────────────────────────────────────
+Away from the keyboard I enjoy {% for interest in personal_interests %}{{ interest }}{% if not loop.last %}, {% else %} and more.{% endif %}{% endfor %}
+I believe a curious life outside work fuels creativity inside it.
+
+{% endif %}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

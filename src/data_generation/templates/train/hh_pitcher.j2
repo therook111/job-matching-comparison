@@ -1,0 +1,58 @@
+{# ============================================================= #}
+{# TEMPLATE: The Headhunter Pitch                                 #}
+{# Agency Submittal · Third-Person Persuasive · Dense Blocks      #}
+{# Expects a variable `candidate` of type CandidateProfile        #}
+{# ============================================================= #}
+
+CONFIDENTIAL CANDIDATE DOSSIER
+====================================================================
+REPRESENTED BY: Executive Search Partners
+ROLE TARGET: {{ headline_title }}
+EXPERIENCE LEVEL: {{ seniority_level }} ({{ total_yoe }} YOE)
+DOMAIN ALIGNMENT: {{ domain_expertise }}
+====================================================================
+
+>>> EXECUTIVE SUMMARY
+We are pleased to present this exceptional profile. The candidate brings a proven {{ total_yoe }}-year track record in the {{ domain_expertise }} sector. Their primary engineering capability is anchored in {{ core_tech_stack | join(', ') }}, which is heavily supported by operational expertise using {{ tools_and_frameworks | join(', ') }}. They are highly self-sufficient in automating and scripting with {{ scripting_and_secondary | join(' and ') }}. Culturally, they thrive in {{ methodologies | join('/') }} environments and consistently drive measurable technical outcomes.
+
+>>> TECHNICAL SNAPSHOT
+[+] Core Competencies : {{ core_tech_stack | join(' | ') }}
+[+] Delivery & CI/CD  : {{ tools_and_frameworks | join(' | ') }}
+[+] Aux. Languages    : {{ scripting_and_secondary | join(' | ') }}
+[+] Agile/Workflow    : {{ methodologies | join(' | ') }}
+
+>>> ENGAGEMENT HISTORY
+{% for exp in work_history %}
+--------------------------------------------------------------------
+{{ loop.index }}. EMPLOYER: {{ exp.company_type }}
+   TITLE: {{ exp.role_title }}
+   TENURE: {{ exp.years_in_role }} years
+
+   {% if exp.bullet_points and exp.bullet_points|length > 0 %}
+   Key Deliverables & Impact:
+   {% for point in exp.bullet_points %}
+   • {{ point }}
+   {% endfor %}
+   {% else %}
+   Engagement Summary:
+   {{ exp.paragraph_description }}
+   {% endif %}
+{% endfor %}
+
+{% if irrelevant_past_job or personal_interests or unrelated_certifications %}
+>>> SUPPLEMENTAL PROFILE DATA
+--------------------------------------------------------------------
+{% if irrelevant_past_job %}
+• Prior Professional Foundations: {{ irrelevant_past_job }}
+{% endif %}
+{% if unrelated_certifications %}
+• Additional Accreditations: {{ unrelated_certifications | join(', ') }}
+{% endif %}
+{% if personal_interests %}
+• Extracurriculars & Affiliations: {{ personal_interests | join(', ') }}
+{% endif %}
+{% endif %}
+
+====================================================================
+CONSULTANT'S NOTE: 
+This candidate is an outstanding technical and cultural match for roles requiring deep {{ seniority_level | lower }}-level expertise in {{ core_tech_stack[0] }} and {{ domain_expertise }}. We highly recommend advancing to a technical interview.

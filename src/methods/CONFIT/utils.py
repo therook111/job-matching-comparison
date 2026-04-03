@@ -24,3 +24,20 @@ def convert_to_hf_dataset(df: pd.DataFrame) -> Dataset:
     
     hf_dataset = Dataset.from_list(grouped_data)
     return hf_dataset
+
+def get_mapping_status(s, seed_jd, seed_map):
+    idx = s.find('\n\n## Ideal Candidate Profile\n')
+
+    prefix = str(s)[:idx][100:700]
+    suffix = str(s)[:idx][-300:]
+    # Get all clusters that match this prefix
+    matches = [seed_map[r] for r in seed_jd if prefix in r and suffix in r]
+    
+    if not matches:
+        return "No Match"
+    
+    # If more than one unique cluster is found, it's ambiguous
+    if len(set(matches)) > 1:
+        return "Ambiguous"
+    
+    return matches[0]

@@ -11,7 +11,7 @@ EXTRACTION RULES:
 
 2. "tech_stack" (array of strings): 
    - Extract all programming languages, frameworks, databases, cloud providers, and technical tools.
-   - Standardize the names (e.g., use "Node.js" instead of "NodeJS", "React" instead of "React.js").
+   - Crucially, normalize all skills to their most basic, universally recognized Wikipedia-style title. (e.g., use "Node.js" instead of "NodeJS", "React" instead of "React.js").
    - Break down broad terms if specific ones are mentioned. If none are found, return an empty array[].
 
 3. "soft_skills" (array of strings): 
